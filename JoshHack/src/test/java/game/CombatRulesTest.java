@@ -17,7 +17,7 @@ public class CombatRulesTest {
 
     @ParameterizedTest
     @CsvSource ({
-        "-1, true", "0, true", "50, false", "100, false"
+        "-1, true", "0, true", "50, false", "100, false", "1, false"
     })
     void testIsDead(int hp, boolean expectedResult) {
         assertEquals(expectedResult, CombatRules.isDead(hp));
