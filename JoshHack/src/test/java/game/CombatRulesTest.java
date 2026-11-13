@@ -1,19 +1,11 @@
 package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class CombatRulesTest {
-    public Creature creature;
-
-    @BeforeEach
-    void setUp(){
-    creature = new Creature(null, '$', null, "Creature", 100, 1, 1);
-    
-    }
 
     @Test
     void testCalculateNewHp() {
