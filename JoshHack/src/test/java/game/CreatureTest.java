@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,9 @@ public class CreatureTest {
         //checks if hp and cause of death were updated
         assertEquals(90, creature.hp());
         assertEquals("Took damage", creature.causeOfDeath());
+
+        //checking that the creature still exists
+        assertNotNull(world.creature(1, 1, 0));
         
         //adding more hp
         creature.modifyHp(10, "Healed");
