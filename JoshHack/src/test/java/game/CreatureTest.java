@@ -29,6 +29,8 @@ public class CreatureTest {
         creature.x = 1;
         creature.y = 1;
         creature.z = 0;
+        new CreatureAi(creature);
+        world.add(creature);
     }
 
     @Test

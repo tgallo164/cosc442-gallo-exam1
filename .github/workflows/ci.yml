@@ -5,6 +5,12 @@ on: [push, pull_request]
 jobs:
   build-and-mutate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    defaults:
+      run:
+        working-directory: ./JoshHack
 
     steps:
     - name: Checkout Repository
@@ -20,6 +26,9 @@ jobs:
     - name: Grant execute permission for Maven wrapper
       run: chmod +x mvnw
 
+    - name: Run SpotBugs
+      run: ./mvnw compile spotbugs:spotbugs
+
     - name: Run JUnit Tests
       run: ./mvnw test
 
@@ -31,3 +40,10 @@ jobs:
       with:
         name: pit-reports
         path: target/pit-reports/
+
+    - name: Upload SpotBugs SARIF to GitHub Code Scanning
+      if: always()
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: JoshHack/target/spotbugsSarif.json
+        category: spotbugs
