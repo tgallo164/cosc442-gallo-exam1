@@ -20,7 +20,12 @@ public class World {
 	private List<Creature> creatures;
 	
 	public World(Tile[][][] tiles){
-		this.tiles = tiles;
+		this.tiles = new Tile[tiles.length][][];
+		for (int x = 0; x < tiles.length; x++) {
+			this.tiles[x] = new Tile[tiles[x].length][];
+			for (int y = 0; y < tiles[x].length; y++)
+				this.tiles[x][y] = tiles[x][y].clone();
+		}
 		this.width = tiles.length;
 		this.height = tiles[0].length;
 		this.depth = tiles[0][0].length;

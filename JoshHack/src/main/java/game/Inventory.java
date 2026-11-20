@@ -3,20 +3,24 @@ package game;
 public class Inventory {
 
 	private Item[] items;
-	public Item[] getItems() { return items; }
+	public Item[] getItems() { return items.clone(); }
 	public Item get(int i) { return items[i]; }
 	
 	public Inventory(int max){
 		items = new Item[max];
 	}
 	
-	public void add(Item item){
+	public boolean add(Item item){
+		if (item == null)
+			return false;
+
 		for (int i = 0; i < items.length; i++){
 			if (items[i] == null){
 				items[i] = item;
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public void remove(Item item){

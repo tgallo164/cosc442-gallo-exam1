@@ -24,12 +24,12 @@ public class InventoryTest {
 
     @Test
     void testAddValidBehavior() {
-        inventory.add(sword);
+        assertTrue(inventory.add(sword));
         assertEquals(sword, inventory.get(0));
     }
 
     @Test
-    void testContainsInvalidBehavior() {
+    void testGetRejectsInvalidIndex() {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             inventory.get(-1);
         });
@@ -40,5 +40,25 @@ public class InventoryTest {
         assertFalse(inventory.isFull());
         inventory.add(sword);
         assertTrue(inventory.isFull());
+    }
+
+    @Test
+    void testAddRejectsNullAndFullInventory() {
+        assertFalse(inventory.add(null));
+        assertTrue(inventory.add(sword));
+
+        Item shield = new Item(']', Color.GRAY, "Shield", "Round");
+        assertFalse(inventory.add(shield));
+        assertSame(sword, inventory.get(0));
+    }
+
+    @Test
+    void testGetItemsReturnsCopyOfStorage() {
+        inventory.add(sword);
+
+        Item[] items = inventory.getItems();
+        items[0] = null;
+
+        assertSame(sword, inventory.get(0));
     }
 }

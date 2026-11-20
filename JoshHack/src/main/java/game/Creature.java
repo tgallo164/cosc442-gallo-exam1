@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -89,7 +90,7 @@ public class Creature {
 	public void modifyRegenHpPer1000(int amount) { regenHpPer1000 += amount; }
 	
 	private List<Effect> effects;
-	public List<Effect> effects(){ return effects; }
+	public List<Effect> effects(){ return Collections.unmodifiableList(effects); }
 	
 	private int maxMana;
 	public int maxMana() { return maxMana; }
@@ -364,12 +365,11 @@ public class Creature {
 	public void pickup(){
 		Item item = world.item(x, y, z);
 		
-		if (inventory.isFull() || item == null){
+		if (item == null || !inventory.add(item)){
 			doAction("grab at the ground");
 		} else {
 			doAction("pickup a %s", nameOf(item));
 			world.remove(x, y, z);
-			inventory.add(item);
 		}
 	}
 	
@@ -456,12 +456,11 @@ public class Creature {
 	
 	public void equip(Item item){
 		if (!inventory.contains(item)) {
-			if (inventory.isFull()) {
+			if (!inventory.add(item)) {
 				notify("Can't equip %s since you're holding too much stuff.", nameOf(item));
 				return;
 			} else {
 				world.remove(item);
-				inventory.add(item);
 			}
 		}
 		
