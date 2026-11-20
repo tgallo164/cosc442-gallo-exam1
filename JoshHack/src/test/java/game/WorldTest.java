@@ -176,6 +176,24 @@ public class WorldTest {
         assertNull(world.item(1, 1, 0));
     }
 
+    @Test
+    void removeItemSearchesAllCellsAndLeavesNonmatchingItems() {
+        World world = new World(tiles(2, 2, 2, Tile.FLOOR));
+        Item preserved = new Item('!', Color.RED, "potion", null);
+        Item target = new Item('?', Color.BLUE, "scroll", null);
+        Item nonmatching = new Item('?', Color.BLUE, "scroll", null);
+        assertTrue(world.addAtEmptySpace(preserved, 0, 0, 0));
+        assertTrue(world.addAtEmptySpace(target, 1, 1, 1));
+
+        world.remove(nonmatching);
+        assertSame(preserved, world.item(0, 0, 0));
+        assertSame(target, world.item(1, 1, 1));
+
+        world.remove(target);
+        assertSame(preserved, world.item(0, 0, 0));
+        assertNull(world.item(1, 1, 1));
+    }
+
     private static Tile[][][] tiles(int width, int height, int depth, Tile tile) {
         Tile[][][] tiles = new Tile[width][height][depth];
         for (int x = 0; x < width; x++)
